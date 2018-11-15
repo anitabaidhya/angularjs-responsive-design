@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+   
+   <head>
+      <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
+   </head>
+   <style>
+		body {
+			margin:0;
+			font-family: sans-serif;
+		}
+		.header {
+			height: 50px;
+			color: white;
+			font-weight: bold;
+			text-align: center;
+			background:rgb(255,183,148);
+			
+		}
+		.header h3 {
+			padding: 15px;
+			margin: 0;
+		}
+		
+		.view-container {
+			height: calc(100vh - 50px);
+			display: inline;
+			float: left;
+			transition: all 0.5s;
+			-webkit-transition: all 0.5s;
+		}
+				
+		.container {
+			position: relative;
+			float: left;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+  
+		#block1 {
+			background: rgb(255,129,128);			
+			color: white;
+			cursor: pointer;
+			transition: all 0.5s;
+			-webkit-transition: all 0.5s;
+		}
+  
+		#block2 {
+			background: rgb(200,118,133);			
+			color: white;
+			cursor: pointer;
+			transition: all 0.5s;
+			-webkit-transition: all 0.5s;
+		}
+  
+		#block3 {
+			background: rgb(110,95,124);
+			color: white;
+			cursor: pointer;
+			transition: all 0.5s;
+			-webkit-transition: all 0.5s;
+		}
+  
+		#block4 {
+			background: rgb(47,86,121);
+			color: white;
+			cursor: pointer;
+			transition: all 0.5s;
+			-webkit-transition: all 0.5s;
+		}
+  
+		.row {
+			width: 100%;
+			height: 100%;
+		}	
+  
+		.floating-btn {
+			position:fixed;
+			width:50px;
+			height:50px;
+			top:70px;
+			background-color:white;
+			border-radius:50px;
+			box-shadow: 2px 2px 3px #999;
+			margin-left: 10px;
+			cursor: pointer;
+			transition: all 0.5s;
+			-webkit-transition: all 0.5s;
+		}
+  
+		.arrow-left {
+			width: 0;
+			height: 0;
+			border-top: 5px solid transparent;
+			border-right: 10px solid black;
+			border-bottom: 5px solid transparent;
+			margin: 20px auto;
+			transition: all 0.25s;
+			-webkit-transition: all 0.25s;
+		}
+	
+		.arrow-right {
+			width: 0;
+			height: 0;
+			border-top: 5px solid transparent;
+			border-left: 10px solid black;
+			border-bottom: 5px solid transparent;
+			margin: 20px auto;
+			transition: all 0.25s;
+			-webkit-transition: all 0.25s;
+		}
+	
+		.slider {
+			height: calc(100vh - 50px);			
+			display: inline;
+			float: left;
+			text-align: center;
+			color: white;
+			background: #3a3535;
+			transition: all 0.5s;
+			-webkit-transition: all 0.5s;
+		}
+		
+		.hide-slider {
+			width: 0%;
+		}
+		
+		.show-slider {
+			width: 20%;
+		}
+		
+	</style>
+   
+   <body ng-app = "myapp">
+      
+      <div ng-controller = "Controller" >        
+		 <div class="header">
+			<h3>NAVIGATION</h3>
+		</div>
+		<div class="row">
+			<div class="slider" ng-class="{'hide-slider': hideSlider, 'show-slider': !hideSlider}">
+				<h4>SIDEBAR</h4>
+			</div>
+			<div class="view-container" ng-style="{'width':hideSlider?'100%':'80%'}">
+				<div id="block1" ng-hide="hideBlock1" ng-style="{'height': block1height}" ng-click="toggleBlock('block1')">
+					<div class="container">
+                        BLOCK 1                        
+                        <p ng-show="block1height == '100%'">is Active</p>
+					</div>
+				</div>
+				<div id="block2" ng-hide="hideBlock2" ng-style="{'height': block2height}" ng-click="toggleBlock('block2')">
+					<div class="container">
+                        BLOCK 2
+                        <p ng-show="block2height == '100%'">is Active</p>
+					</div>
+				</div>
+				<div id="block3" ng-hide="hideBlock3" ng-style="{'height': block3height}" ng-click="toggleBlock('block3')">
+					<div class="container">
+                        BLOCK 3
+                        <p ng-show="block3height == '100%'">is Active</p>
+					</div>
+				</div>
+				<div id="block4" ng-hide="hideBlock4" ng-style="{'height': block4height}" ng-click="toggleBlock('block4')">
+					<div class="container">
+                        BLOCK 4
+                        <p ng-show="block4height == '100%'">is Active</p>
+					</div>
+				</div>
+				
+				<div class="floating-btn" ng-click="toggleSlider()" ng-style="{'left':hideSlider?'0%':'20%'}">
+					<div ng-class="{'arrow-left': !hideSlider,'arrow-right': hideSlider}"></div>
+				</div>
+			</div>			
+		</div>
+      </div>
+      
+      <script>
+         angular.module("myapp", [])
+         
+         .controller("Controller", function($scope) {
+			$scope.hideSlider = false;
+			$scope.block1height = '25%';
+			$scope.block2height = '25%';
+			$scope.block3height = '25%';
+			$scope.block4height = '25%';
+			$scope.hideBlock1 = false;
+			$scope.hideBlock2 = false;
+			$scope.hideBlock3 = false;
+			$scope.hideBlock4 = false;
+			$scope.toggleSlider = function() {
+				if($scope.hideSlider){
+					$scope.hideSlider = false;	
+				} else {
+					$scope.hideSlider = true;	
+				}				
+			}
+			
+			$scope.toggleBlock = function(name) {
+				switch(name){
+					case "block1":
+						if($scope.block1height == "25%"){
+							$scope.block1height = '100%';
+							$scope.hideBlock2 = true;
+							$scope.hideBlock3 = true;
+							$scope.hideBlock4 = true;
+						} else {
+							$scope.block1height = '25%';
+							$scope.hideBlock2 = false;
+							$scope.hideBlock3 = false;
+							$scope.hideBlock4 = false;							
+						}
+						break;
+					case "block2":
+						if($scope.block2height == "25%"){
+							$scope.block2height = '100%';
+							$scope.hideBlock1 = true;
+							$scope.hideBlock3 = true;
+							$scope.hideBlock4 = true;
+						} else {
+							$scope.block2height = '25%';
+							$scope.hideBlock1 = false;
+							$scope.hideBlock3 = false;
+							$scope.hideBlock4 = false;	
+						}
+						break;
+					case "block3":
+						if($scope.block3height == "25%"){
+							$scope.block3height = '100%';
+							$scope.hideBlock1 = true;
+							$scope.hideBlock2 = true;
+							$scope.hideBlock4 = true;
+						} else {
+							$scope.block3height = '25%';
+							$scope.hideBlock1 = false;
+							$scope.hideBlock2 = false;
+							$scope.hideBlock4 = false;	
+						}
+						break;
+					case "block4":
+						if($scope.block4height == "25%"){
+							$scope.block4height = '100%';
+							$scope.hideBlock1 = true;
+							$scope.hideBlock2 = true;
+							$scope.hideBlock3 = true;
+						} else {
+							$scope.block4height = '25%';
+							$scope.hideBlock1 = false;
+							$scope.hideBlock2 = false;
+							$scope.hideBlock3 = false;	
+						}
+						break;
+				}
+				
+			}
+         });
+      </script>
+      
+   </body>
+</html>
